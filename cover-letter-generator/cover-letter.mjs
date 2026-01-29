@@ -130,14 +130,33 @@ ${userData.name}
   extractRelevantSkills(jobDescription, userSkills) {
     // Simple keyword matching to find relevant skills
     const lowerJobDesc = jobDescription.toLowerCase();
-    return userSkills.filter(skill => 
+    const matchedSkills = userSkills.filter(skill => 
       lowerJobDesc.includes(skill.toLowerCase())
     );
+    
+    // If no skills match, return some general relevant skills
+    if (matchedSkills.length === 0) {
+      return ['JavaScript development', 'Front-end development', 'Problem solving', 'Code debugging'];
+    }
+    
+    return matchedSkills;
   }
 
   formatCoverLetter(content, companyName, jobTitle) {
     const date = new Date().toLocaleDateString('en-HK');
     
+    // Extract just the main content part from the generated cover letter
+    const lines = content.split('\n');
+    const startIndex = lines.findIndex(line => line.includes('Dear Hiring Manager'));
+    const endIndex = lines.findIndex(line => line.includes('Sincerely,'));
+
+    let mainContent = content;
+    if (startIndex !== -1 && endIndex !== -1) {
+      mainContent = lines.slice(startIndex, endIndex).join('\n');
+    } else if (startIndex !== -1) {
+      mainContent = lines.slice(startIndex).join('\n');
+    }
+
     return `
 ${this.userData.name}
 ${this.userData.address}
@@ -149,9 +168,7 @@ Hiring Manager
 ${companyName}
 [Company Address]
 
-Dear Hiring Manager,
-
-${content.split('\n\n').slice(1).join('\n\n')}
+${mainContent}
 
 Sincerely,
 ${this.userData.name}
@@ -159,43 +176,63 @@ ${this.userData.name}
   }
 
   async convertToPDF(content, outputPath) {
-    // For now, we'll create a simple text file as a placeholder
-    // In a full implementation, this would use a PDF generation library
-    const htmlContent = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
-    .header { text-align: left; margin-bottom: 30px; }
-    .contact-info { margin-bottom: 20px; }
-    .date { margin: 20px 0; }
-    .salutation { margin: 20px 0; }
-    .closing { margin: 20px 0 0 0; }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div class="contact-info">${this.userData.name}<br>${this.userData.address}<br>${this.userData.email} | ${this.userData.phone}</div>
-    <div class="date">${new Date().toLocaleDateString('en-HK')}</div>
-    <div>Hiring Manager<br>${content.split('\n')[6] || 'Company Name'}</div>
-  </div>
-  <div class="salutation">Dear Hiring Manager,</div>
-  ${content.split('\n\n').slice(1).map(p => `<p>${p}</p>`).join('')}
-  <div class="closing">Sincerely,<br>${this.userData.name}</div>
-</body>
-</html>
-    `;
-    
-    writeFileSync(outputPath.replace('.pdf', '.html'), htmlContent);
-    
-    // Try to convert HTML to PDF using wkhtmltopdf if available
+    // Use PDFKit to generate a proper PDF
     try {
-      execSync(`wkhtmltopdf "${outputPath.replace('.pdf', '.html')}" "${outputPath}"`);
+      const PDFDocument = (await import('pdfkit')).default;
+      const fs = await import('fs');
+      
+      const doc = new PDFDocument();
+      const stream = fs.createWriteStream(outputPath);
+      doc.pipe(stream);
+
+      // Set up basic styling
+      doc.fontSize(12);
+
+      // Split content into lines
+      const lines = content.split('\n');
+      
+      let yPosition = 50; // Starting y position
+      
+      // Process each line of the cover letter
+      for (const line of lines) {
+        if (yPosition > 750) { // If we reach bottom of page, add new page
+          doc.addPage();
+          yPosition = 50;
+        }
+        
+        if (line.trim() === '') {
+          yPosition += 10; // Add spacing for empty lines
+        } else if (line.includes('Sincerely,') || line.includes(this.userData.name)) {
+          // Special formatting for closing
+          doc.font('Helvetica-Bold').fontSize(12);
+          doc.text(line.trim(), 50, yPosition);
+          doc.font('Helvetica').fontSize(12);
+          yPosition += 20;
+        } else if (line.includes('Dear Hiring Manager')) {
+          // Special formatting for greeting
+          yPosition += 20;
+          doc.text(line.trim(), 50, yPosition);
+          yPosition += 20;
+        } else {
+          // Regular text
+          doc.text(line.trim(), 50, yPosition);
+          yPosition += 15;
+        }
+      }
+
+      doc.end();
+      
+      // Wait for the PDF to finish writing
+      await new Promise((resolve, reject) => {
+        stream.on('finish', resolve);
+        stream.on('error', reject);
+      });
+      
+      console.log(`PDF successfully created: ${outputPath}`);
     } catch (error) {
-      // If wkhtmltopdf is not available, create a text version
-      console.log('wkhtmltopdf not found, creating text version');
+      console.error('Error generating PDF with PDFKit:', error.message);
+      // Fallback to creating text version
+      console.log('Creating text version as fallback');
       writeFileSync(outputPath.replace('.pdf', '.txt'), content);
     }
   }
@@ -214,8 +251,8 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
       }
 
       const jobDescFile = args[0];
-      const jobTitle = args[1] || 'Position';
-      const companyName = args[2] || 'Company';
+      const jobTitle = args[1] || 'JavaScript Developer';
+      const companyName = args[2] || 'Tech Innovations Ltd';
 
       if (!existsSync(jobDescFile)) {
         console.log(`Job description file not found: ${jobDescFile}`);

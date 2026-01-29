@@ -1,0 +1,19 @@
+# Test data file
+test-data.json
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Backup files
+*~
+*.bak
+*.backup
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Test JSON file
+current-test.json
