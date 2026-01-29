@@ -41,7 +41,7 @@ async function runTests() {
     const chatId = '8543893239'; // Valid chat ID we confirmed exists
     const caption = 'Unit test - valid scenario';
     
-    const command = `node ${process.cwd()}/skills/telegram-media-send/scripts/send_telegram_media.mjs ${chatId} "${mockImagePath}" "${caption}"`;
+    const command = `node ${process.cwd()}/telegram-media-send/scripts/send_telegram_media.mjs ${chatId} "${mockImagePath}" "${caption}"`;
     console.log(`  Command: ${command}`);
     
     let result;
@@ -75,7 +75,7 @@ async function runTests() {
   console.log('\nTest 2: Script with insufficient arguments (should show usage)');
   totalTests++;
   try {
-    const command = `node ${process.cwd()}/skills/telegram-media-send/scripts/send_telegram_media.mjs`;
+    const command = `node ${process.cwd()}/telegram-media-send/scripts/send_telegram_media.mjs`;
     console.log(`  Command: ${command}`);
     
     let result;
@@ -105,7 +105,7 @@ async function runTests() {
     const invalidImagePath = join(tmpdir(), 'nonexistent_file.jpg');
     const chatId = '8543893239';
     
-    const command = `node ${process.cwd()}/skills/telegram-media-send/scripts/send_telegram_media.mjs ${chatId} "${invalidImagePath}" "Unit test - invalid file"`;
+    const command = `node ${process.cwd()}/telegram-media-send/scripts/send_telegram_media.mjs ${chatId} "${invalidImagePath}" "Unit test - invalid file"`;
     console.log(`  Command: ${command}`);
     
     let result;
@@ -134,7 +134,7 @@ async function runTests() {
   totalTests++;
   try {
     // Test importing the functions directly
-    const { getBotToken, getTelegramMethod, sendMedia } = await import(`${process.cwd()}/skills/telegram-media-send/scripts/send_telegram_media.mjs`);
+    const { getBotToken, getTelegramMethod, sendMedia } = await import(`${process.cwd()}/telegram-media-send/scripts/send_telegram_media.mjs`);
     
     // Verify functions exist
     if (typeof getBotToken === 'function' && 
@@ -153,7 +153,7 @@ async function runTests() {
   console.log('\nTest 5: Test getTelegramMethod function with different file types');
   totalTests++;
   try {
-    const { getTelegramMethod } = await import(`${process.cwd()}/skills/telegram-media-send/scripts/send_telegram_media.mjs`);
+    const { getTelegramMethod } = await import(`${process.cwd()}/telegram-media-send/scripts/send_telegram_media.mjs`);
     
     // Test different file extensions
     const testCases = [
