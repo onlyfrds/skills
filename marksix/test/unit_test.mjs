@@ -7,6 +7,7 @@
 
 import { spawnSync } from 'child_process';
 import { join } from 'path';
+import { existsSync } from 'fs';
 
 // Test function
 async function runTests() {
@@ -19,8 +20,15 @@ async function runTests() {
   console.log('Test 1: Script execution without errors');
   totalTests++;
   try {
-    // Use absolute path from project root
-    const scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    // Determine the correct path by checking if we're in a test subdirectory
+    // First try relative to this file (when running from project root)
+    let scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    
+    // If that doesn't work, try relative to this test file's directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), '../scripts/generate_numbers.py');
+    }
+    
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
     
     if (result.status === 0) {
@@ -38,7 +46,12 @@ async function runTests() {
   console.log('\nTest 2: Output format validation');
   totalTests++;
   try {
-    const scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    // Same path resolution logic
+    let scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    if (!require('fs').existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), '../scripts/generate_numbers.py');
+    }
+    
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
     
     if (result.status === 0 && result.stdout.includes('Your Mark Six numbers are:')) {
@@ -56,7 +69,12 @@ async function runTests() {
   console.log('\nTest 3: Output contains exactly 6 numbers');
   totalTests++;
   try {
-    const scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    // Same path resolution logic
+    let scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    if (!require('fs').existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), '../scripts/generate_numbers.py');
+    }
+    
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
     
     if (result.status === 0) {
@@ -81,7 +99,12 @@ async function runTests() {
   console.log('\nTest 4: All numbers in valid range (1-49)');
   totalTests++;
   try {
-    const scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    // Same path resolution logic
+    let scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    if (!require('fs').existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), '../scripts/generate_numbers.py');
+    }
+    
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
     
     if (result.status === 0) {
@@ -113,7 +136,12 @@ async function runTests() {
   console.log('\nTest 5: All numbers are unique (no duplicates)');
   totalTests++;
   try {
-    const scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    // Same path resolution logic
+    let scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    if (!require('fs').existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), '../scripts/generate_numbers.py');
+    }
+    
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
     
     if (result.status === 0) {
@@ -146,7 +174,12 @@ async function runTests() {
   console.log('\nTest 6: Multiple executions show different results (randomness)');
   totalTests++;
   try {
-    const scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    // Same path resolution logic
+    let scriptPath = join(process.cwd(), 'skills/marksix/scripts/generate_numbers.py');
+    if (!require('fs').existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), '../scripts/generate_numbers.py');
+    }
+    
     const results = [];
     
     // Run the script 3 times
