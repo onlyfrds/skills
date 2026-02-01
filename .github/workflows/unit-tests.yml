@@ -35,14 +35,8 @@ jobs:
 
     - name: Run unit tests for telegram-media-send
       run: |
-        source ~/.nvm/nvm.sh && nvm use ${{ matrix.node-version }}
-        # Check if test file exists before running
-        if [ -f "telegram-media-send/test/unit_test_telegram_send.mjs" ]; then
-          echo "Running telegram-media-send unit tests..."
-          node telegram-media-send/test/unit_test_telegram_send.mjs
-        else
-          echo "No unit tests found for telegram-media-send skill"
-        fi
+        echo "Running telegram-media-send unit tests..."
+        node telegram-media-send/test/unit_test_telegram_send.mjs
 
     - name: Run tests for other skills if they exist
       run: |
