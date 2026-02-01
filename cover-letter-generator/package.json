@@ -1,5 +1,5 @@
 {
-  "name": "clawdbot-skill-cover-letter-generator",
+  "name": "openclaw-skill-cover-letter-generator",
   "version": "1.0.0",
   "description": "A cover letter generator skill for Clawdbot",
   "main": "cover-letter.mjs",
@@ -8,7 +8,7 @@
     "test": "node cover-letter.mjs"
   },
   "keywords": [
-    "clawdbot",
+    "openclaw",
     "skill",
     "cover-letter",
     "resume",

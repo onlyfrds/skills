@@ -14,7 +14,7 @@ This skill allows users to send different types of media to Telegram by using th
 
 ## Configuration Requirements
 
-This skill requires the Telegram bot token to be available in the Clawdbot configuration. The token is automatically read from `~/.clawdbot/clawdbot.json` in the `channels.telegram.botToken` field.
+This skill requires the Telegram bot token to be available in the OpenClaw configuration. The token is automatically read from `~/.openclaw/openclaw.json` in the `channels.telegram.botToken` field.
 
 ## Usage
 

@@ -3,7 +3,7 @@ import { join } from 'path';
 import { execSync } from 'child_process';
 
 class TodoManager {
-  constructor(workspaceDir = '/home/neo/clawd') {
+  constructor(workspaceDir = '/home/neo/bot-nekochan') {
     this.workspaceDir = workspaceDir;
     // Store the todo data file in the skill's own directory for better organization
     this.todoFile = join(workspaceDir, 'skills', 'todo-list', 'todo-data.json');
@@ -168,7 +168,7 @@ class TodoManager {
   removeAssociatedCronJob(todoId) {
     try {
       // Get list of cron jobs to find any related to this todo (using JSON output)
-      const cronListOutput = execSync('clawdbot cron list --json', { encoding: 'utf8' });
+      const cronListOutput = execSync('openclaw cron list --json', { encoding: 'utf8' });
       
       // Parse the JSON output
       const cronData = JSON.parse(cronListOutput);
@@ -180,7 +180,7 @@ class TodoManager {
           if (job.name && job.name.includes(todoId.toString())) {
             const jobId = job.id;
             try {
-              execSync(`clawdbot cron rm ${jobId}`, { encoding: 'utf8' });
+              execSync(`openclaw cron rm ${jobId}`, { encoding: 'utf8' });
               console.log(`Removed associated cron job ${jobId} for todo ${todoId}`);
             } catch (err) {
               console.error(`Failed to remove cron job ${jobId}:`, err.message);
@@ -283,7 +283,7 @@ function scheduleReminder(todoId, todoText, delayMinutes, todoManager) {
     // For now, we'll output instructions on how to manually set up the cron job
     // since direct cron scheduling from within this script would require additional integration
     console.log(`To schedule a reminder for this task, please run the following command separately:`);
-    console.log(`clawdbot cron --action add --job '{"schedule": "*/${delayMinutes} * * * *", "command": "${reminderCommand}", "description": "Reminder for todo ${todoId}: ${todoText}", "channel": "whatsapp"}'`);
+    console.log(`openclaw cron --action add --job '{"schedule": "*/${delayMinutes} * * * *", "command": "${reminderCommand}", "description": "Reminder for todo ${todoId}: ${todoText}", "channel": "whatsapp"}'`);
     console.log(`Or for a one-time reminder in ${delayMinutes} minutes, calculate the exact time and schedule accordingly.`);
   } catch (error) {
     console.error(`Error scheduling reminder: ${error.message}`);
@@ -511,7 +511,7 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
       const cronMonth = futureTime.getMonth() + 1; // Month is 0-indexed
       
       // Construct the cron command with the channel specification
-      const cronCommand = `clawdbot cron add --name "todo-reminder-${todoId}" --cron "${cronMinute} ${cronHour} ${cronDay} ${cronMonth} *" --session isolated --message "${message}" --channel whatsapp --to "+85265432195" --deliver --delete-after-run`;
+      const cronCommand = `openclaw cron add --name "todo-reminder-${todoId}" --cron "${cronMinute} ${cronHour} ${cronDay} ${cronMonth} *" --session isolated --message "${message}" --channel whatsapp --to "+85265432195" --deliver --delete-after-run`;
       
       console.log(`Scheduling reminder for todo ID ${todoId} (${todo.text}) in ${minutes} minute(s)...`);
       console.log(`Command to execute: ${cronCommand}`);

@@ -10,8 +10,8 @@ import { join } from 'path';
 
 // Function to read bot token from Clawdbot config
 function getBotToken() {
-  // Attempt to read from the clawdbot config file
-  const configPath = process.env.HOME + '/.clawdbot/clawdbot.json';
+  // Attempt to read from the openclaw config file
+  const configPath = process.env.HOME + '/.openclaw/openclaw.json';
   
   if (existsSync(configPath)) {
     try {

@@ -40,7 +40,7 @@ To schedule reminders that send WhatsApp messages via agent turns:
    - Then schedule the cron job with an isolated session for direct message delivery:
    
 ```
-exec command="clawdbot cron add --name \\\"todo-reminder-[id]\\\" --cron \\\"MM HH DD MM *\\\" --session isolated --message \\\"⏰ Reminder: Please complete your task - [task_text]\\\" --channel whatsapp --to \\\"+85265432195\\\" --deliver --delete-after-run"
+exec command="openclaw cron add --name \\\"todo-reminder-[id]\\\" --cron \\\"MM HH DD MM *\\\" --session isolated --message \\\"⏰ Reminder: Please complete your task - [task_text]\\\" --channel whatsapp --to \\\"+85265432195\\\" --deliver --delete-after-run"
 ```
 
 Replace MM HH DD MM with the calculated time values, [id] with a unique identifier, and [task_text] with the actual task text.
@@ -59,7 +59,7 @@ When the user says "Mark todo #1 as complete":
 When the user says "Schedule a reminder for todo #1 in 10 minutes":
 - First, get the todo: `exec command="node {baseDir}/todo.mjs list"`
 - Then schedule the reminder with calculated time values using:
-`exec command="clawdbot cron add --name \\\"todo-reminder-1\\\" --cron \\\"MM HH DD MM *\\\" --session isolated --message \\\"⏰ Reminder: Please complete your task\\\" --channel whatsapp --to \\\"+85265432195\\\" --deliver --delete-after-run"`
+`exec command="openclaw cron add --name \\\"todo-reminder-1\\\" --cron \\\"MM HH DD MM *\\\" --session isolated --message \\\"⏰ Reminder: Please complete your task\\\" --channel whatsapp --to \\\"+85265432195\\\" --deliver --delete-after-run"`
 
 ## Implementation
 

@@ -19,7 +19,7 @@ class MockFileSystemManager {
       return this.fileExists;
     }
     // For config files, return true
-    if (path.includes('clawdbot.json') || path.includes('moltbot.json')) {
+    if (path.includes('openclaw.json')) {
       return true;
     }
     // For temp directories, return true

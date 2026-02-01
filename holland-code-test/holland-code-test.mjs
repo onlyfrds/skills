@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
 class HollandCodeTest {
-  constructor(workspaceDir = '/home/neo/clawd') {
+  constructor(workspaceDir = '/home/neo/bot-nekochan') {
     this.workspaceDir = workspaceDir;
     this.testDataFile = join(workspaceDir, 'skills', 'holland-code-test', 'test-data.json');
     this.questionsFile = join(workspaceDir, 'skills', 'holland-code-test', 'questions.json');

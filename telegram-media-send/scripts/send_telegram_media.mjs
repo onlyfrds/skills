@@ -18,7 +18,7 @@ function getBotToken() {
   // Attempt to read from the moltbot config file
   const configPaths = [
     process.env.HOME + '/.moltbot/moltbot.json',
-    process.env.HOME + '/.clawdbot/clawdbot.json'
+    process.env.HOME + '/.openclaw/openclaw.json'
   ];
   
   for (const configPath of configPaths) {

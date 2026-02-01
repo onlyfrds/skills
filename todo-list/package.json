@@ -1,5 +1,5 @@
 {
-  "name": "clawdbot-skill-todo-list",
+  "name": "openclaw-skill-todo-list",
   "version": "1.0.0",
   "description": "A todo list manager skill for Clawdbot",
   "main": "todo.mjs",
@@ -8,7 +8,7 @@
     "test": "node todo.test.mjs"
   },
   "keywords": [
-    "clawdbot",
+    "openclaw",
     "skill",
     "todo",
     "productivity",
