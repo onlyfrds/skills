@@ -96,6 +96,7 @@ class MockTempFileManager {
 }
 
 // Import the actual classes for integration testing
+const pathModule = require('path');
 const {
   VideoRepository,
   FrameCaptureService,
@@ -103,7 +104,7 @@ const {
   BonusPictureGenerator,
   BonusPictureFactory,
   TempFileManager
-} = require('./solid_bonus_picture.mjs');
+} = require(pathModule.join(__dirname, '../solid_bonus_picture.mjs'));
 
 // Test framework
 const testResults = {
