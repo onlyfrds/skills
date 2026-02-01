@@ -40,7 +40,6 @@ jobs:
 
     - name: Run tests for other skills if they exist
       run: |
-        source ~/.nvm/nvm.sh && nvm use ${{ matrix.node-version }}
         # Check for other skills with test directories
         for skill_dir in */; do
           if [ -d "$skill_dir/test" ] && [ -n "$(ls -A $skill_dir/test/*.mjs 2>/dev/null)" ]; then
