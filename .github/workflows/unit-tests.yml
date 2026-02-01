@@ -33,14 +33,9 @@ jobs:
         npm --version
         # Install any additional dependencies if needed
 
-    - name: Run unit tests for telegram-media-send
+    - name: Run tests for skills
       run: |
-        echo "Running telegram-media-send unit tests..."
-        node telegram-media-send/test/unit_test_telegram_send.mjs
-
-    - name: Run tests for other skills if they exist
-      run: |
-        # Check for other skills with test directories
+        # Check for skills with test directories
         for skill_dir in */; do
           if [ -d "$skill_dir/test" ] && [ -n "$(ls -A $skill_dir/test/*.mjs 2>/dev/null)" ]; then
             echo "Running tests for $(basename $skill_dir)..."
