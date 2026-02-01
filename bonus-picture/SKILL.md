@@ -15,7 +15,7 @@ This skill randomly selects a video with filename contains word `dance` from the
 ## Implementation
 
 When the user requests a bonus picture:
-1. Execute the bonus picture script: `nodejs {baseDir}/scripts/bonus_picture.mjs [USER_CHAT_ID]`
+1. Execute the bonus picture script: `nodejs {baseDir}/scripts/solid_bonus_picture.mjs [USER_CHAT_ID]`
 2. The script will:
    - Randomly select a video file from assets/video that contains 'dance' in the filename
    - Use ffmpeg to capture a random frame from the selected video
@@ -26,7 +26,7 @@ When the user requests a bonus picture:
 ## Usage
 
 When the user says "send me a bonus picture", "more bonus pictures", or similar requests:
-- Execute: `exec command="nodejs {baseDir}/scripts/bonus_picture.mjs [USER_CHAT_ID]"`
+- Execute: `exec command="nodejs {baseDir}/scripts/solid_bonus_picture.mjs [USER_CHAT_ID]"`
 - The script will handle finding video files in assets/video
 - Randomly select one video containing 'dance'
 - Extract a random frame using ffmpeg
