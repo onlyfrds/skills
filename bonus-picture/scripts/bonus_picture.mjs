@@ -9,16 +9,30 @@ import { randomUUID } from 'crypto';
  * Function to get random video file from directory
  */
 function getRandomVideoFile(directory) {
-  const files = readdirSync(directory).filter(file => 
+  const files = readdirSync(directory);
+  
+  // First, try to find files that contain 'dance' in the name
+  const danceFiles = files.filter(file => 
+    file.toLowerCase().includes('dance') && file.endsWith('.mp4')
+  );
+  
+  // If there are dance files, randomly select one from those
+  if (danceFiles.length > 0) {
+    const randomIndex = Math.floor(Math.random() * danceFiles.length);
+    return danceFiles[randomIndex];
+  }
+  
+  // If no dance files found, fall back to any mp4 file
+  const allMp4Files = files.filter(file => 
     file.endsWith('.mp4')
   );
   
-  if (files.length === 0) {
+  if (allMp4Files.length === 0) {
     throw new Error('No video files found in directory');
   }
   
-  const randomIndex = Math.floor(Math.random() * files.length);
-  return files[randomIndex];
+  const randomIndex = Math.floor(Math.random() * allMp4Files.length);
+  return allMp4Files[randomIndex];
 }
 
 /**
@@ -104,11 +118,14 @@ function generateAndSendBonusPicture(chatId) {
 }
 
 // Main execution
-if (process.argv[1] === new URL(import.meta.url).pathname) {
-  const [, , chatId] = process.argv;
+console.log('Script executed with args:', process.argv);
+console.log('Checking if main module:', process.argv[1], 'vs', new URL(import.meta.url).pathname);
+console.log('Condition result:', process.argv[1] === new URL(import.meta.url).pathname);
 
-  if (!chatId) {
-    console.log(`
+const [, , chatId] = process.argv;
+
+if (!chatId) {
+  console.log(`
 Bonus Picture Generator
 
 Usage:
@@ -117,17 +134,19 @@ Usage:
 Examples:
   bonus_picture 123456789
     `);
-    process.exit(1);
-  }
+  process.exit(1);
+}
 
-  try {
-    const result = generateAndSendBonusPicture(chatId);
-    console.log('Bonus picture generated and sent successfully!');
-    process.exit(0);
-  } catch (error) {
-    console.error('Failed to generate and send bonus picture:', error.message);
-    process.exit(1);
-  }
+console.log('Starting bonus picture generation...');
+console.log('Chat ID:', chatId);
+
+try {
+  const result = generateAndSendBonusPicture(chatId);
+  console.log('Bonus picture generated and sent successfully!');
+  process.exit(0);
+} catch (error) {
+  console.error('Failed to generate and send bonus picture:', error.message);
+  process.exit(1);
 }
 
 export { generateAndSendBonusPicture, getRandomVideoFile, captureRandomFrame };
