@@ -67,50 +67,46 @@ try {
         }
       }
 
-      addTodo(text, priority = 'medium', dueDate = null, category = 'no category') {
-        // Normalize category name
-        const normalizedCategory = this.normalizeCategoryName(category);
-        
-        // Add category if it doesn't exist
-        if (!this.categories.some(cat => cat.toLowerCase() === normalizedCategory.toLowerCase())) {
-          this.categories.push(normalizedCategory);
+      addTodo(item, priority = 'medium', dueDate = null, category = 'no category') {
+        // Validate or create category if needed
+        if (category && !this.categories.includes(category)) {
+          // If the category doesn't exist, add it
+          this.addCategory(category);
         }
-
+        
         const newTodo = {
-          id: Date.now() + Math.floor(Math.random() * 1000),
-          text,
+          id: Date.now(),
+          text: item,
           completed: false,
           createdAt: new Date().toISOString(),
-          priority,
-          dueDate,
-          category: normalizedCategory
+          priority: priority,
+          dueDate: dueDate, // Store the due date if provided
+          category: category // Assign category to the todo
         };
-
+        
         this.todos.push(newTodo);
         this.saveTodos();
         return newTodo;
       }
 
-      listTodos(status = 'all', category = null) {
-        let filteredTodos = [...this.todos];
-
-        // Filter by status
-        if (status !== 'all') {
-          if (status === 'completed') {
-            filteredTodos = filteredTodos.filter(todo => todo.completed);
-          } else if (status === 'pending') {
-            filteredTodos = filteredTodos.filter(todo => !todo.completed);
-          }
-        }
-
-        // Filter by category
-        if (category !== null) {
-          const normalizedCategory = this.normalizeCategoryName(category);
+      listTodos(filter = 'all', category = null) {
+        let filteredTodos = this.todos;
+        
+        // Apply category filter if specified
+        if (category) {
           filteredTodos = filteredTodos.filter(todo => 
-            todo.category.toLowerCase() === normalizedCategory.toLowerCase()
+            (todo.category && todo.category.toLowerCase() === category.toLowerCase()) || 
+            (category.toLowerCase() === 'no category' && (!todo.category || todo.category === 'no category'))
           );
         }
-
+        
+        // Apply completion status filter
+        if (filter === 'pending') {
+          filteredTodos = filteredTodos.filter(todo => !todo.completed);
+        } else if (filter === 'completed') {
+          filteredTodos = filteredTodos.filter(todo => todo.completed);
+        }
+        
         return filteredTodos;
       }
 
@@ -141,51 +137,51 @@ try {
         return this.todos.length;
       }
 
-      addCategory(name) {
-        if (!name || name.toString().trim() === '') {
+      addCategory(categoryName) {
+        if (!categoryName) {
           throw new Error('Category name cannot be empty');
         }
-
-        const normalizedCategory = this.normalizeCategoryName(name);
         
+        // Normalize category name (trim and lowercase for comparison)
+        const normalizedCategory = categoryName.trim();
+        
+        // Check if category already exists (case insensitive)
         if (this.categories.some(cat => cat.toLowerCase() === normalizedCategory.toLowerCase())) {
           return false; // Category already exists
         }
-
+        
         this.categories.push(normalizedCategory);
         this.saveTodos();
         return true;
       }
 
-      removeCategory(name) {
-        if (!name || name.toString().trim() === '') {
+      removeCategory(categoryName) {
+        if (!categoryName) {
           throw new Error('Category name cannot be empty');
         }
-
-        const normalizedCategory = this.normalizeCategoryName(name);
-
-        // Check if category exists
-        const categoryIndex = this.categories.findIndex(cat => 
-          cat.toLowerCase() === normalizedCategory.toLowerCase()
-        );
-
-        if (categoryIndex === -1) {
-          return false; // Category doesn't exist
-        }
-
+        
+        const normalizedCategory = categoryName.trim();
+        const initialLength = this.categories.length;
+        
         // Remove the category
-        this.categories.splice(categoryIndex, 1);
-
-        // Reassign todos from the removed category to 'no category'
-        this.todos = this.todos.map(todo => {
-          if (todo.category.toLowerCase() === normalizedCategory.toLowerCase()) {
-            todo.category = 'no category';
-          }
-          return todo;
-        });
-
-        this.saveTodos();
-        return true;
+        this.categories = this.categories.filter(cat => 
+          cat.toLowerCase() !== normalizedCategory.toLowerCase()
+        );
+        
+        // Update any todos that had this category to 'no category'
+        if (initialLength !== this.categories.length) {
+          this.todos = this.todos.map(todo => {
+            if (todo.category && 
+                todo.category.toLowerCase() === normalizedCategory.toLowerCase()) {
+              todo.category = 'no category';
+            }
+            return todo;
+          });
+          this.saveTodos();
+          return true;
+        }
+        
+        return false; // Category not found
       }
 
       listCategories() {
@@ -193,61 +189,56 @@ try {
       }
 
       updateTodoCategory(todoId, newCategory) {
-        if (!newCategory || newCategory.toString().trim() === '') {
+        if (!newCategory) {
           throw new Error('Category cannot be empty');
         }
-
+        
+        // Validate or create category if needed
+        if (!this.categories.includes(newCategory)) {
+          this.addCategory(newCategory);
+        }
+        
         const todo = this.todos.find(t => t.id === todoId);
-        if (!todo) {
-          return null;
+        if (todo) {
+          todo.category = newCategory;
+          this.saveTodos();
+          return todo;
         }
-
-        const normalizedCategory = this.normalizeCategoryName(newCategory);
-
-        // Add the category if it doesn't exist
-        if (!this.categories.some(cat => cat.toLowerCase() === normalizedCategory.toLowerCase())) {
-          this.categories.push(normalizedCategory);
-        }
-
-        todo.category = normalizedCategory;
-        this.saveTodos();
-        return todo;
+        return null;
       }
 
       getStats() {
         const total = this.todos.length;
-        const completed = this.todos.filter(todo => todo.completed).length;
+        const completed = this.todos.filter(t => t.completed).length;
         const pending = total - completed;
-
-        // Count overdue todos
-        const today = new Date();
-        const overdue = this.todos.filter(todo => {
-          if (todo.dueDate && !todo.completed) {
-            const due = new Date(todo.dueDate);
-            return due < today;
-          }
-          return false;
-        }).length;
-
-        // Breakdown by category
-        const categories = {};
-        this.todos.forEach(todo => {
-          categories[todo.category] = (categories[todo.category] || 0) + 1;
-        });
-
-        // Breakdown by priority
-        const priorities = {};
-        this.todos.forEach(todo => {
-          priorities[todo.priority] = (priorities[todo.priority] || 0) + 1;
-        });
-
+        
+        // Count overdue items
+        const now = new Date();
+        const overdue = this.todos.filter(todo => 
+          !todo.completed && 
+          todo.dueDate && 
+          new Date(todo.dueDate) < now
+        ).length;
+        
+        const priorities = this.todos.reduce((acc, todo) => {
+          acc[todo.priority] = (acc[todo.priority] || 0) + 1;
+          return acc;
+        }, {});
+        
+        // Count todos by category
+        const categories = this.todos.reduce((acc, todo) => {
+          const category = todo.category || 'no category';
+          acc[category] = (acc[category] || 0) + 1;
+          return acc;
+        }, {});
+        
         return {
           total,
           completed,
           pending,
           overdue,
-          categories,
-          priorities
+          priorities,
+          categories
         };
       }
 
