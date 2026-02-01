@@ -1,0 +1,21 @@
+{
+  "name": "weather_hk",
+  "display_name": "Hong Kong Weather Skill",
+  "description": "Enhanced weather skill that specifically checks for chance of rain and humidity in Hong Kong",
+  "version": "1.0.0",
+  "author": "OpenClaw AI",
+  "enabled": true,
+  "dependencies": [
+    "requests"
+  ],
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "api_key": {
+        "type": "string",
+        "description": "OpenWeatherMap API key (optional, leave empty for free tier)",
+        "default": ""
+      }
+    }
+  }
+}
