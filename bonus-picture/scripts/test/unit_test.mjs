@@ -1,10 +1,10 @@
 // SOLID Unit Tests for Bonus Picture Generator
 
-const assert = require('assert');
-const fs = require('fs');
-const child_process = require('child_process');
-const path = require('path');
-const crypto = require('crypto');
+import assert from 'assert';
+import fs from 'fs';
+import child_process from 'child_process';
+import path from 'path';
+import crypto from 'crypto';
 
 // Mock classes for testing
 class MockFileSystemManager {
@@ -96,15 +96,17 @@ class MockTempFileManager {
 }
 
 // Import the actual classes for integration testing
-const pathModule = require('path');
-const {
+import { 
   VideoRepository,
   FrameCaptureService,
   TelegramMediaSender,
   BonusPictureGenerator,
   BonusPictureFactory,
   TempFileManager
-} = require(pathModule.join(__dirname, '../solid_bonus_picture.mjs'));
+} from '../solid_bonus_picture.mjs';
+
+// For testing, we'll use relative paths since we know the structure
+// The test file is in scripts/test/ and the main file is in scripts/
 
 // Test framework
 const testResults = {
