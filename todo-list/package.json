@@ -5,7 +5,7 @@
   "main": "todo.mjs",
   "type": "module",
   "scripts": {
-    "test": "node todo.mjs"
+    "test": "node todo.test.mjs"
   },
   "keywords": [
     "clawdbot",
