@@ -29,6 +29,26 @@ async function runTests() {
       scriptPath = join(process.cwd(), '../scripts/whois_lookup.py');
     }
     
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/whois_lookup.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
     
     if (result.status === 0 || result.status === 1) { // Status 1 is expected when no domain provided
@@ -49,6 +69,26 @@ async function runTests() {
     let scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
     if (!existsSync(scriptPath)) {
       scriptPath = join(process.cwd(), '../scripts/whois_lookup.py');
+    }
+    
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/whois_lookup.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/domain-whois/scripts/whois_lookup.py';
     }
     
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
@@ -73,6 +113,26 @@ async function runTests() {
       scriptPath = join(process.cwd(), '../scripts/whois_lookup.py');
     }
     
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/whois_lookup.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
     // Test with an invalid domain
     const result = spawnSync('python3', [scriptPath, 'invalid domain'], { encoding: 'utf8' });
     
@@ -94,6 +154,26 @@ async function runTests() {
     let scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
     if (!existsSync(scriptPath)) {
       scriptPath = join(process.cwd(), '../scripts/whois_lookup.py');
+    }
+    
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/whois_lookup.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/domain-whois/scripts/whois_lookup.py';
     }
     
     // Test with a valid domain (this might fail due to network restrictions, but should not fail due to validation)
@@ -121,6 +201,26 @@ async function runTests() {
       scriptPath = join(process.cwd(), '../scripts/whois_lookup.py');
     }
     
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/whois_lookup.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
     // Test with a potential command injection attempt
     const result = spawnSync('python3', [scriptPath, 'example.com;echo vulnerable'], { encoding: 'utf8' });
     
@@ -142,6 +242,26 @@ async function runTests() {
     let scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
     if (!existsSync(scriptPath)) {
       scriptPath = join(process.cwd(), '../scripts/whois_lookup.py');
+    }
+    
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/whois_lookup.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/domain-whois/scripts/whois_lookup.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/domain-whois/scripts/whois_lookup.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/domain-whois/scripts/whois_lookup.py';
     }
     
     // Test with different valid domain formats

@@ -29,6 +29,26 @@ async function runTests() {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
     }
     
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
     
     if (result.status === 0 || result.status === 1) { // Status 1 is expected when no arguments provided
@@ -49,6 +69,26 @@ async function runTests() {
     let scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
     if (!existsSync(scriptPath)) {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
+    }
+    
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
     }
     
     const result = spawnSync('python3', [scriptPath], { encoding: 'utf8' });
@@ -73,6 +113,26 @@ async function runTests() {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
     }
     
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
     const result = spawnSync('python3', [scriptPath, 'profile'], { encoding: 'utf8' });
     
     if (result.status === 0 && result.stdout.includes('CFA Study Profile')) {
@@ -93,6 +153,26 @@ async function runTests() {
     let scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
     if (!existsSync(scriptPath)) {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
+    }
+    
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
     }
     
     const result = spawnSync('python3', [scriptPath, 'set-level', '2'], { encoding: 'utf8' });
@@ -117,6 +197,26 @@ async function runTests() {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
     }
     
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
     const result = spawnSync('python3', [scriptPath, 'set-level', '5'], { encoding: 'utf8' });
     
     if (result.status === 0 && result.stdout.includes('Invalid level')) {
@@ -137,6 +237,26 @@ async function runTests() {
     let scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
     if (!existsSync(scriptPath)) {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
+    }
+    
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
     }
     
     const result = spawnSync('python3', [scriptPath, 'set-target-date', '2026-06-01'], { encoding: 'utf8' });
@@ -161,6 +281,26 @@ async function runTests() {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
     }
     
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
     const result = spawnSync('python3', [scriptPath, 'set-target-date', 'invalid-date'], { encoding: 'utf8' });
     
     if (result.status === 0 && result.stdout.includes('Invalid date format')) {
@@ -181,6 +321,26 @@ async function runTests() {
     let scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
     if (!existsSync(scriptPath)) {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
+    }
+    
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
     }
     
     const result = spawnSync('python3', [scriptPath, 'log-study', '2.5', 'Ethics'], { encoding: 'utf8' });
@@ -205,6 +365,26 @@ async function runTests() {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
     }
     
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
     const result = spawnSync('python3', [scriptPath, 'topics'], { encoding: 'utf8' });
     
     if (result.status === 0 && result.stdout.includes('Topic Progress')) {
@@ -225,6 +405,26 @@ async function runTests() {
     let scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
     if (!existsSync(scriptPath)) {
       scriptPath = join(process.cwd(), '../scripts/cfa_study.py');
+    }
+    
+    // Also try the relative path from test directory
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'scripts/cfa_study.py');
+    }
+    
+    // Final fallback for GitHub Actions environment
+    if (!existsSync(scriptPath)) {
+      scriptPath = join(process.cwd(), 'skills/cfa-study/scripts/cfa_study.py');
+    }
+    
+    // Last resort: try absolute path from root
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/neo/skills/cfa-study/scripts/cfa_study.py';
+    }
+    
+    // For the GitHub Actions environment where tests run from different base
+    if (!existsSync(scriptPath)) {
+      scriptPath = '/home/runner/work/skills/skills/cfa-study/scripts/cfa_study.py';
     }
     
     const result = spawnSync('python3', [scriptPath, 'practice', 'Ethics', '1', '2'], { encoding: 'utf8' });
