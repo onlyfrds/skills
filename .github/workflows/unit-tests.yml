@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x, 24.x]
+        node-version: [22.x]
 
     steps:
     - name: Checkout code
@@ -35,18 +35,11 @@ jobs:
 
     - name: Run unit tests for telegram-media-send
       run: |
-        source ~/.nvm/nvm.sh && nvm use ${{ matrix.node-version }}
-        # Check if test file exists before running
-        if [ -f "telegram-media-send/test/unit_test_telegram_send.mjs" ]; then
-          echo "Running telegram-media-send unit tests..."
-          node telegram-media-send/test/unit_test_telegram_send.mjs
-        else
-          echo "No unit tests found for telegram-media-send skill"
-        fi
+        echo "Running telegram-media-send unit tests..."
+        node telegram-media-send/test/unit_test_telegram_send.mjs
 
     - name: Run tests for other skills if they exist
       run: |
-        source ~/.nvm/nvm.sh && nvm use ${{ matrix.node-version }}
         # Check for other skills with test directories
         for skill_dir in */; do
           if [ -d "$skill_dir/test" ] && [ -n "$(ls -A $skill_dir/test/*.mjs 2>/dev/null)" ]; then

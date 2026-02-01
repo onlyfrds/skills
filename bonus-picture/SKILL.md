@@ -10,12 +10,12 @@ A skill for capturing random frames from nekochan videos and sending them via Te
 
 ## Description
 
-This skill randomly selects a video from the assets/video/nekochan directory, captures a frame from it, saves it to a temporary folder with a random filename, and then sends it to the user via Telegram.
+This skill randomly selects a video with filename contains word `dance` from the assets/video directory, captures a frame from it, saves it to a temporary folder with a random filename, and then sends it to the user via Telegram.
 
 ## Implementation
 
 When the user requests a bonus picture:
-1. Randomly select a video file from assets/video/nekochan
+1. Randomly select a video file from assets/video
 2. Capture a random frame from the selected video
 3. Save the frame to /tmp/moltbot with a random filename
 4. Use telegram-media-send skill to send the image to the user
