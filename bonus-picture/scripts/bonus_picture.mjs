@@ -10,11 +10,11 @@ import { randomUUID } from 'crypto';
  */
 function getRandomVideoFile(directory) {
   const files = readdirSync(directory).filter(file => 
-    file.endsWith('.mp4') && file.startsWith('nekochan_')
+    file.endsWith('.mp4')
   );
   
   if (files.length === 0) {
-    throw new Error('No nekochan video files found in directory');
+    throw new Error('No video files found in directory');
   }
   
   const randomIndex = Math.floor(Math.random() * files.length);
@@ -59,7 +59,7 @@ function generateAndSendBonusPicture(chatId) {
     }
     
     // Select random video
-    const videoDir = 'assets/video/nekochan';
+    const videoDir = 'assets/video';
     const randomVideo = getRandomVideoFile(videoDir);
     const videoPath = join(process.cwd(), videoDir, randomVideo);
     
@@ -80,7 +80,7 @@ function generateAndSendBonusPicture(chatId) {
     console.log(`Successfully captured frame: ${outputPath}`);
     
     // Execute the send command directly
-    const sendCommand = `node ${process.cwd()}/skills/telegram-media-send/scripts/send_telegram_media.mjs ${chatId} "${outputPath}" "Bonus nekochan picture! From: ${randomVideo}"`;
+    const sendCommand = `nodejs ${process.cwd()}/skills/telegram-media-send/scripts/send_telegram_media.mjs ${chatId} "${outputPath}" "Bonus nekochan picture! From: ${randomVideo}"`;
     execSync(sendCommand, { stdio: 'inherit' });
     
     console.log('Bonus picture sent successfully!');
