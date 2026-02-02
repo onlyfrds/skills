@@ -1,12 +1,14 @@
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { execSync } from 'child_process';
+import https from 'https';
 
 class TodoManager {
   constructor(workspaceDir = '/home/neo/bot-nekochan') {
     this.workspaceDir = workspaceDir;
     // Store the todo data file in the skill's own directory for better organization
     this.todoFile = join(workspaceDir, 'skills', 'todo-list', 'todo-data.json');
+    this.dashboardDataFile = join(workspaceDir, 'skills', 'todo-list', 'data.json');
     this.loadTodos();
   }
 
@@ -45,9 +47,90 @@ class TodoManager {
         categories: this.categories
       };
       writeFileSync(this.todoFile, JSON.stringify(dataToSave, null, 2));
+      
+      // Update the dashboard website after saving
+      this.updateDashboard();
     } catch (error) {
       console.error('Error saving todos:', error.message);
       throw error;
+    }
+  }
+
+  // Method to update the dashboard website
+  updateDashboard() {
+    // Create simplified data representation for the dashboard
+    const dashboardData = {
+      total: this.todos.length,
+      pending: this.todos.filter(t => !t.completed).length,
+      completed: this.todos.filter(t => t.completed).length,
+      priorities: {
+        high: this.todos.filter(t => t.priority === 'high' && !t.completed).length,
+        medium: this.todos.filter(t => t.priority === 'medium' && !t.completed).length,
+        low: this.todos.filter(t => t.priority === 'low' && !t.completed).length
+      },
+      categories: this.getCategoryBreakdown(),
+      upcomingDeadlines: this.getUpcomingDeadlines(),
+      updatedAt: new Date().toISOString(),
+      todos: this.todos.map(todo => ({
+        id: todo.id,
+        text: todo.text,
+        completed: todo.completed,
+        priority: todo.priority,
+        dueDate: todo.dueDate,
+        category: todo.category
+      }))
+    };
+
+    // Write the dashboard data to a separate file
+    writeFileSync(this.dashboardDataFile, JSON.stringify(dashboardData, null, 2));
+    
+    // Attempt to update the GitHub repository
+    this.syncToGithub();
+  }
+
+  // Helper method to get category breakdown
+  getCategoryBreakdown() {
+    const categories = {};
+    this.todos.forEach(todo => {
+      const category = todo.category || 'no category';
+      if (!categories[category]) {
+        categories[category] = 0;
+      }
+      categories[category]++;
+    });
+    
+    return Object.entries(categories).map(([name, value]) => ({ name, value }));
+  }
+
+  // Helper method to get upcoming deadlines
+  getUpcomingDeadlines() {
+    // Filter to only incomplete todos with due dates
+    const todosWithDueDates = this.todos
+      .filter(todo => !todo.completed && todo.dueDate)
+      .map(todo => {
+        return {
+          id: todo.id,
+          text: todo.text,
+          dueDate: todo.dueDate,
+          priority: todo.priority,
+          daysUntilDue: Math.ceil((new Date(todo.dueDate) - new Date()) / (1000 * 60 * 60 * 24))
+        };
+      })
+      .sort((a, b) => a.daysUntilDue - b.daysUntilDue); // Sort by closest deadline
+    
+    // Return top 10 closest deadlines
+    return todosWithDueDates.slice(0, 10);
+  }
+
+  // Method to sync dashboard data to GitHub
+  syncToGithub() {
+    try {
+      // Note: Dashboard synchronization has been disabled to maintain a single data source
+      // The dashboard now reads directly from the primary data file at:
+      // /home/neo/skills/todo-list/data.json
+      console.log('Dashboard sync disabled - maintaining single data source');
+    } catch (error) {
+      console.error('Error in syncToGithub:', error.message);
     }
   }
 
@@ -190,7 +273,7 @@ class TodoManager {
       }
     } catch (error) {
       // If cron command is not available or fails, just log the error
-      // but don't prevent the todo from being marked as complete
+      // but don't prevent the todo from being marked complete
       console.error(`Error checking for associated cron jobs:`, error.message);
     }
   }
